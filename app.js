@@ -12,10 +12,19 @@ app.use(bodyParser.json());
 app.use(morgan('tiny'))
 app.use(cors())
 // app.options('*', cors());
+const authRouter = require('./routes/auth.js')
+const productRouter = require('./routes/product.js')
+
+app.use(authRouter)
+app.use('/product',productRouter)
 const hostname = process.env.APP_HOSTNAME;
 const port = process.env.PORT;
 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(process.env.MONGODB_URL).then(() => {
+    console.log("Connected to DB....");
+}).catch((error) => {
+    console.error(error);
+})
 console.log("hostname", hostname);
 // const authorization = (_, res, next) => {
 //     const isAuth = false;
