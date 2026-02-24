@@ -6,17 +6,17 @@ const mongoose = require('mongoose')
 require('dotenv').config();
 
 const app = express();
-
+const API = process.env.API_URL;
 
 app.use(bodyParser.json());
 app.use(morgan('tiny'))
 app.use(cors())
 // app.options('*', cors());
 const authRouter = require('./routes/auth.js')
-const productRouter = require('./routes/product.js')
+// const productRouter = require('./routes/product.js')
 
-app.use(authRouter)
-app.use('/product',productRouter)
+app.use(`${API}/`, authRouter);
+// app.use('/product',productRouter)
 const hostname = process.env.APP_HOSTNAME;
 const port = process.env.PORT;
 

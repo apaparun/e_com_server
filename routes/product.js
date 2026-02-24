@@ -1,7 +1,5 @@
 const app = express();
 const router = app.router();
-
-router.get("/count", (req, res) => {
-    
-})
+const productsController = require('../controllers/product')
+router.get("/count", productsController.getProductsCount)
 module.exports = router;
