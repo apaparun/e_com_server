@@ -2,16 +2,7 @@ const { Schema, model } = require('mongoose')
 
 const userSchema = Schema({
     name: { type: String, required: true, trim: true },
-    email: {
-        type: String, required: true, trim: true,
-        validate: {
-            validator: (value) => {
-                const reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
-                return value.match(reg);
-            },
-            message: "Please enter valid email"
-        }
-    },
+    email: { type: String, required: true, trim: true },
     passwordHash: { type: String, required: true },
     street: String,
     apartment: String,
@@ -34,3 +25,12 @@ const userSchema = Schema({
 });
 userSchema.index({ email: 1 }, { unique: true });
 exports.User = model('User', userSchema);
+
+///sample validator
+// validate: {
+//             validator: (value) => {
+//                 const reg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
+//                 return value.match(reg);
+//             },
+//             message: "Please enter valid email"
+//         }

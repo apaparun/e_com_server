@@ -1,13 +1,19 @@
 const express = require('express');
 const router = express.Router()
-const authController = reuire('../controllers/auth')
-router.post('/login', (req, res) => {
-    return res.status(201).json({'name':'Arun','age':27})
-});
-router.post('/register', (req, res) => { 
+const authController = require('../controllers/auth');
+const { body } = require('express-validator');
 
-});
-router.post('/forgot-password',(req, res) => { });
-router.post('/verify-otp',(req, res) => { });
-router.post('/reset-password',(req, res) => { });
+const validateUser = [
+    body('name').not().isEmpty().withMessage(),
+    body('email').isEmail().withMessage("Please enter a valid email address."),
+    body('password')
+        .isLength({ min: 8 }).withMessage("Password must be at least 8  characters.")
+        .isStrongPassword().withMessage("Password must contains at least one uppercase, one lowercase, and one symbol."),
+    body('phone').isMobilePhone().withMessage("Please enter a valid phone number")
+]
+router.post('/login',authController.login);
+router.post('/register',validateUser, authController.register);
+router.post('/forgot-password',authController.forgotPassword);
+router.post('/verify-otp',authController.verifyPasswordResetOpt);
+router.post('/reset-password',authController.resetPassword);
 module.exports = router;
